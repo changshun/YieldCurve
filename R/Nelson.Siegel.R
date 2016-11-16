@@ -16,7 +16,7 @@ function( rate, maturity )
         for( i in 1:length(lambdaValues))
           {
             lambdaTemp <- optimize(.factorBeta2,interval=c(0.001,1),
-              maturity=lambdaValues[i],maximum=TRUE)$maximum
+              maturity=1/lambdaValues[i],maximum=TRUE)$maximum
             InterEstimation <- .NS.estimator(as.numeric(rate[j,]), maturity, lambdaTemp)
             BetaCoef <- InterEstimation$Par
 	    if( BetaCoef[1]>0 & BetaCoef[1]<20)
