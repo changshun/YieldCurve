@@ -1,21 +1,21 @@
-`.beta1Spot` <- function(maturity, tau)
+`.beta1Spot` <- function(maturity, lambda)
   {
-   as.numeric( (1 - exp(-maturity/tau))/(maturity/tau))
+   as.numeric( (1 - exp(-maturity*lambda))/(maturity*lambda))
   }
 
-`.beta2Spot` <- function(maturity, tau)
+`.beta2Spot` <- function(maturity, lambda)
   {
-   as.numeric(  ((1 - exp(-maturity/tau))/(maturity/tau) - exp(-maturity/tau)) )
+   as.numeric(  ((1 - exp(-maturity*lambda))/(maturity*lambda) - exp(-maturity*lambda)) )
   }
 
-`.beta1Forward` <- function(maturity, tau)
+`.beta1Forward` <- function(maturity, lambda)
   {
-       as.numeric( exp(-maturity/tau) )
+       as.numeric( exp(-maturity*lambda) )
   }
 
-`.beta2Forward` <- function(maturity, tau)
+`.beta2Forward` <- function(maturity, lambda)
   {
-       as.numeric( exp(-maturity/tau) * (maturity/tau) )
+       as.numeric( exp(-maturity*lambda) * (maturity*lambda) )
   }
 
 `.factorBeta1` <- function(lambda, maturity)
@@ -40,11 +40,11 @@
     return(EstResults)
   }
 
-`.NSS.estimator` <- function( rate, maturity, tau1, tau2 )
+`.NSS.estimator` <- function( rate, maturity, lambda1, lambda2 )
   {
-    beta <- lm( rate ~ 1 + .beta1Spot(maturity,tau1) +
-                           .beta2Spot(maturity,tau1) +
-                           .beta2Spot(maturity,tau2) )
+    beta <- lm( rate ~ 1 + .beta1Spot(maturity,lambda1) +
+                           .beta2Spot(maturity,lambda1) +
+                           .beta2Spot(maturity,lambda2) )
     betaPar <- coef(beta)
     NaValues <- na.omit(betaPar)
     if( length(NaValues)<4 ) betaPar <- c(0,0,0,0)
