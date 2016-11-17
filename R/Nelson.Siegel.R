@@ -4,7 +4,8 @@ function( rate, maturity )
     rate <- try.xts(rate,error=as.matrix)
     if(ncol(rate)==1) rate<-matrix(as.vector(rate),1,nrow(rate))
     pillars.number <- length(maturity)
-    lambdaValues <- 1/seq(maturity[1], maturity[ pillars.number ], by=0.5)
+    lambdaValues <- 1/seq(maturity[1], maturity[pillars.number], by=0.5)
+    lambdaValues <- lambdaValues[lambdaValues < 1]
 
     FinalResults <- matrix(0, nrow(rate), 4)
     colnames( FinalResults ) <- c("beta_0","beta_1","beta_2","lambda")
